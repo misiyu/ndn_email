@@ -102,6 +102,7 @@ int Data_base::append_table(char *buff , int buff_sz , int file_id){
 	for (i = 0; i < buff_sz; i++) {
 		if(buff[i] == '\n') break ;
 	}
+	buff[i] = '\n';
 	FILE *file = fopen(this->m_table.data(),"ab+");
 	fseek(file, 0 , SEEK_END);
 	fprintf(file , "%d,", file_id);

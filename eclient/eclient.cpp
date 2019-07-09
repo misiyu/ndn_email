@@ -41,8 +41,8 @@ void EClient::m_expressInterest(string interest_name ,
 }
 
 string EClient::ea2na(const string e_addr){
-	//return "/ndn/edu/pkusz/gdcni19/emailserver" ;
-	return "/localhost/nfd/emailserver" ;
+	return "/ndn/edu/pkusz/gdcni19/emailserver" ;
+	//return "/localhost/nfd/emailserver" ;
 }
 
 
@@ -104,23 +104,13 @@ int EClient::get_file_sz(const string e_addr , string key, int file_id){
 }
 
 int EClient::recv_email(const string e_addr , string key , int file_id){
-	// interest format /d_addr/&(e)	
 	this->get_file_sz(e_addr,key,file_id);
-	//string emailInterest = this->ea2na(e_addr)+"/"+std::to_string(file_id) ;
-	//Data_base m_db ; 
-	//Recv_data recv_data(emailInterest , this->slice_sum , m_db);
-	//recv_data.start();
-	//pthread_join(recv_data.get_ptid(),NULL);
 	return 0 ;
 }
 
 int EClient::get_email_list(const string e_addr , string key){
 	this->get_file_sz(e_addr , key , -1);
 	string e_list_interest = this->ea2na(e_addr)+"/"+e_addr	;
-	//Data_base m_db ;
-	//Recv_data recv_data(e_list_interest , this->slice_sum , m_db);
-	//recv_data.start();
-	//pthread_join(recv_data.get_ptid(),NULL);
 
 	return 0 ;
 }

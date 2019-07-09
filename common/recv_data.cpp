@@ -14,6 +14,7 @@ Recv_data::Recv_data(string interest_name , int segment_num , Data_base &db):
 	this->m_get_segment_count = 0;
 	this->finish = false ;
 	this->m_file_id = db.get_cur_id();
+	this->onNack_try = 0;
 	db.cur_id_p1();
 }
 
@@ -58,8 +59,19 @@ void Recv_data::onData(const Interest& interest , const Data& data){
 }
 
 void Recv_data::onNack(const Interest& interest, const lp::Nack& nack){
-	cout << "no route to " << interest.getName() << endl;
-	this->m_face.shutdown();
+	if(this->onNack_try < 10){
+		sleep(1);
+		Interest interest_new(interest.getName());
+		this->m_face.expressInterest(interest_new,
+				bind(&Recv_data::onData,this,_1,_2),
+				bind(&Recv_data::onNack,this,_1,_2),
+				bind(&Recv_data::onTimeout,this,_1));
+		cout << "expressInterest : " << interest_new.getName() << endl ;
+	}else{
+		cout << "onNack :" << interest.getName() << endl;
+		this->m_face.shutdown();
+		cout << "Recv_data face shutdown" << endl ;
+	}
 }
 
 void Recv_data::onTimeout(const Interest& interest){

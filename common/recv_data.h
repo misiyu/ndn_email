@@ -63,6 +63,8 @@ private:
 	int m_file_id ;
 	Data_base &m_db ;
 
+	int onNack_try ;
+
 	bool finish ;
 
 };

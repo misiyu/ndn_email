@@ -32,7 +32,7 @@ void Data_pro::onInterest(const InterestFilter& filter, const Interest& interest
 	ss >> slice_n ;
 	char content[P_DATA_SZ];
 	int start_i = slice_n*(P_DATA_SZ-2) ;
-	if( start_i > this->m_data_len or slice_n < 0){
+	if( start_i >= this->m_data_len or slice_n < 0){
 		if(slice_n == this->slice_sum){
 			Data data;
 			data.setName(interest_name);
