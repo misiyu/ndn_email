@@ -1,23 +1,25 @@
 #include <fstream>
+#include <jsoncpp/json/json.h>
 #include "eclient.h"
 
-string get_ndn_addr(string filepath){
-	string result = "" ;
-	std::ifstream infile ;
-	infile.open(filepath.data());
-	if(!infile.is_open()){
-		cout << "file " << filepath << " open error!" << endl ;
-		exit(1);
+void get_ndn_addr(string &mNdnAddr , string &serverPrefix){
+	string filePath = "./ndn_addr.conf" ;
+	Json::Reader reader ;
+	Json::Value root ;
+	std::ifstream in(filePath.data(),std::ios::binary) ;
+	if(!in.is_open()){
+		cout << "can not read configure file " << filePath << endl ;
+		exit(1) ;
 	}
-	getline(infile,result) ;
-	cout << "host addr : " << result << endl ;
-	infile.close();
-	return result ;
+	reader.parse(in,root) ;
+	in.close() ;
+	mNdnAddr = root["myPrefix"].asString() ;
+	serverPrefix = root["serverPrefix"].asString() ;
 }
 
 EClient::EClient(string e_addr){
 	this->m_e_addr = e_addr ;
-	this->m_ndn_addr = get_ndn_addr("./ndn_addr.conf") ;
+	get_ndn_addr(m_ndn_addr, serverPrefix) ;
 	cout << "my ndn addr : " << this->m_ndn_addr << endl ;
 }
 
@@ -41,7 +43,7 @@ void EClient::m_expressInterest(string interest_name ,
 }
 
 string EClient::ea2na(const string e_addr){
-	return "/ndn/edu/pkusz/gdcni19/emailserver" ;
+	return this->serverPrefix ;
 	//return "/localhost/nfd/emailserver" ;
 }
 

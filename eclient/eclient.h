@@ -25,6 +25,7 @@ class EClient{
 		ndn::Face m_face ;
 		string m_ndn_addr ;
 		string m_e_addr ;
+		string serverPrefix ; 
 
 		int slice_sum ;
 		//Data_pro * m_data_pro;
