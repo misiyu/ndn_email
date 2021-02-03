@@ -13,9 +13,13 @@ public:
 	Data_base();
 	~Data_base();
 	int save(char * buff , int buff_sz , int file_id);
+	int save(string buff , int file_id);
 	int append(char * buff , int buff_sz , int file_id);
+	int append(string buff , int file_id);
 	int append_table(char * buff , int buff_sz , int file_id);
+	int append_table(string buff , int file_id);
 	int read_file(char * buff  , int file_id , int & file_sz);
+	int read_file(string buff , int file_id, int &file_sz);
 	int get_file_sz(int file_id);
 	int get_e_list(string e_addr , string & e_list);
 	int get_cur_id(){
